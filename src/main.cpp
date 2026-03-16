@@ -12,15 +12,16 @@ void loop()
 {
   Wire.requestFrom(SENSOR_ADDRESS, 2);    // request 2 bytes from sensor
   if (Wire.available() >= 2) {
-    byte x1 = Wire.read(); // read first byte
-    byte x2 = Wire.read(); // read second byte
-    int sensorValue = (x1 << 8) | x2; // combine bytes
+    byte highByte = Wire.read(); // read first byte
+    byte lowByte = Wire.read(); // read second byte
+    uint16_t sensorValue = (highByte << 8) | lowByte;
     Serial.print("Sensor Value(raw): ");
     Serial.println(sensorValue);
-    // Convert raw value to physical units (example conversion)
-    int Force = 10*(sensorValue-1000)/15000; // LBS
+    // convert raw value to physical units
+    // Defined Equation from TE connectivity datasheet for force output
+    double force = 10.0*(sensorValue-1000)/15000.0; // LBS
     Serial.print("Force (LBS): ");
-    Serial.println(Force);
+    Serial.println(force);
   } else {
     Serial.println("Sensor data not available");
   }
