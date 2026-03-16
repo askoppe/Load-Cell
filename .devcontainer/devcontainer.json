@@ -1,0 +1,15 @@
+{
+  "name": "Load-Cell — PlatformIO",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "settings": {
+    "terminal.integrated.defaultProfile.linux": "bash"
+  },
+  "extensions": [
+    "ms-vscode.cpptools",
+    "platformio.platformio-ide"
+  ],
+  "postCreateCommand": "pio --version || python3 -m platformio --version",
+  "remoteUser": "vscode"
+}

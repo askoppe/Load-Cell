@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <Wire.h>
+#include "sensor.h"
 #define SENSOR_ADDRESS 0x28
 
 void setup() 
@@ -14,12 +15,11 @@ void loop()
   if (Wire.available() >= 2) {
     byte highByte = Wire.read(); // read first byte
     byte lowByte = Wire.read(); // read second byte
-    uint16_t sensorValue = (highByte << 8) | lowByte;
+    uint16_t sensorValue = bytesToRaw(highByte, lowByte); // combine bytes into raw sensor value
     Serial.print("Sensor Value(raw): ");
     Serial.println(sensorValue);
-    // convert raw value to physical units
-    // Defined Equation from TE connectivity datasheet for force output
-    double force = 10.0*(sensorValue-1000)/15000.0; // LBS
+    // convert raw value to physical units using testable helper
+    double force = rawToForce(sensorValue); // LBS
     Serial.print("Force (LBS): ");
     Serial.println(force);
   } else {
