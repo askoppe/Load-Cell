@@ -11,6 +11,10 @@ void setup()
 
 void loop() 
 {
+  // Request sensor data
+  Wire.beginTransmission(SENSOR_ADDRESS);
+  Wire.endTransmission();
+  // Read Sensor Data
   Wire.requestFrom(SENSOR_ADDRESS, 2);    // request 2 bytes from sensor
   if (Wire.available() >= 2) {
     byte highByte = Wire.read(); // read first byte
@@ -25,6 +29,5 @@ void loop()
   } else {
     Serial.println("Sensor data not available");
   }
-
-  delay(1000);
+  delay(1000); // wait for a second before next reading
 }
